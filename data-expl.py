@@ -7,7 +7,8 @@ Created on Thu Nov 25 23:19:24 2021
 
 import pandas as pd
 from sklearn.tree import DecisionTreeRegressor
-
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error
 #import file path
 melbourne_file_path = '../data-exploration/melb_data.csv'
 #read file to a variable for easier access
@@ -22,12 +23,19 @@ y = melbourne_data.Price
 #features
 melbournes_features = ['Rooms', 'Bathroom','Landsize','Lattitude', 'Longtitude']
 X = melbourne_data[melbournes_features]
-# Define model. Specify a number for random_state to ensure same results each run
-melbourne_model = DecisionTreeRegressor(random_state = 1)
 
+#split data into training and validation data, for both features and targets
+#the random_state argument guarantees we get the same split every time we run
+#this script
+
+train_X, val_X, train_Y, val_Y = train_test_split(X,y,random_state=0)
+
+#Define model
+melbourne_model = DecisionTreeRegressor()
+print(train_X)
+print(train_Y)
 #Fit model
-melbourne_model.fit(X, y)
-print("Making predictions for the following 5 houses: ")
-print(X.head())
-print("The predictions are: ")
-print(melbourne_model.predict(X.head()))
+melbourne_model.fit(train_X,train_Y)
+# get predicted prices on validation data
+val_predictions = melbourne_model.predict(val_X)
+print(mean_absolute_error(val_Y, val_predictions))
