@@ -32,8 +32,7 @@ train_X, val_X, train_Y, val_Y = train_test_split(X,y,random_state=0)
 
 #Define model
 melbourne_model = DecisionTreeRegressor()
-print(train_X)
-print(train_Y)
+
 #Fit model
 melbourne_model.fit(train_X,train_Y)
 # get predicted prices on validation data
